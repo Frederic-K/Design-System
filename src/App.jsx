@@ -2,11 +2,22 @@ import { useState } from "react"
 import reactLogo from "./assets/react.svg"
 import viteLogo from "/vite.svg"
 
+import ErrorBoundary from "./components/ErrorBoundary"
+
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
+    <ErrorBoundary
+      title="Application Error"
+      message="We're sorry, but something went wrong. Our team has been notified."
+      showReload={true}
+      showDetails={process.env.NODE_ENV === "development"}
+      onError={(error, errorInfo) => {
+        // Log to external service in production
+        console.error("App Error:", error, errorInfo)
+      }}
+    >
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -23,7 +34,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    </ErrorBoundary>
   )
 }
 
