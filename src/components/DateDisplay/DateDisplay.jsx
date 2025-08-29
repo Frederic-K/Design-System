@@ -8,7 +8,7 @@ export default function DateDisplay({ className = "" }) {
 
     const updateDate = () => {
       const today = new Date()
-      const userLocale = navigator.language || "en-US"
+      const userLocale = navigator.language || navigator.userLanguage || "en-US"
 
       const formattedDate = today.toLocaleDateString(userLocale, {
         year: "numeric",
