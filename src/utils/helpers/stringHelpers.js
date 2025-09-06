@@ -11,23 +11,33 @@ export function truncateText(text, maxLength = 100) {
 
 /**
  * Removes diacritical marks (accents) from a string.
- * @function stripAccents
- * @param {string} [s=""] - The input string.
+ * @param {string} [string=""] - The input string. (default to empty string to avoid "if (!str) return")
  * @returns {string} - The string with diacritical marks removed.
  * @example
  * stripAccents("Café") // Returns "Cafe"
  */
-export const stripAccents = (s = "") => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+export function stripAccents(string = "") {
+  return string.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+}
 
 /**
- * Normalizes a string by removing diacritical marks, converting to lowercase, and trimming leading/trailing spaces.
- * @function norm
- * @param {string} [s=""] - The input string.
- * @returns {string} - The normalized string.
+ * Normalizes a string by trimming whitespace, converting to uppercase, and removing diacritical marks.
+ * @param {string} str - The input string to normalize.
+ * @returns {string} - The normalized string (trimmed, uppercase, without accents).
  * @example
- * norm("Café") // Returns "cafe"
+ * normalizeString("  Café français  ") // Returns "CAFE FRANCAIS"
+ * normalizeString("") // Returns ""
+ * normalizeString(null) // Returns ""
  */
-export const norm = (s = "") => stripAccents(s).toLowerCase().trim()
+export function normalizeString(string) {
+  if (!string) return ""
+
+  return string
+    .trim()
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+}
 
 /**
  * Splits a string into an array of trimmed parts based on a delimiter.
@@ -38,8 +48,8 @@ export const norm = (s = "") => stripAccents(s).toLowerCase().trim()
  * splitAndTrim("  Hello,   World!  ", " ") // Returns ["Hello,", "World!"]
  * splitAndTrim("   Hello,   World!   ", /\s+/) // Returns ["Hello,", "World!"]
  */
-export function splitAndTrim(str, delimiter) {
-  return str
+export function splitAndTrim(string, delimiter) {
+  return string
     .split(delimiter)
     .map((part) => part.trim())
     .filter((part) => part.length > 0)
