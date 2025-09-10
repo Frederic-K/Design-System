@@ -1,3 +1,5 @@
+// OLd School
+
 import { useState, useEffect } from "react"
 
 const ScrollToTop = () => {
